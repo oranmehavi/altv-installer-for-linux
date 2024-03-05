@@ -1,8 +1,30 @@
 import QtQuick
 
 Window {
-    width: 640
-    height: 480
+    id: window
     visible: true
-    title: qsTr("Hello World")
+    flags: Qt.FramelessWindowHint
+    width: 800
+    height: 600
+    maximumWidth: width
+    maximumHeight: height
+    minimumWidth: width
+    minimumHeight: height
+    color: "transparent"
+
+
+    Rectangle {
+        color: Qt.darker("green")
+        anchors.fill: parent
+        radius: 10
+    }
+
+    TitleBar {
+        id: titleBar
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+    }
 }

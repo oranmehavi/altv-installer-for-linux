@@ -4,7 +4,7 @@ project(altv-installer-for-linux VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick LinguistTools)
 
 qt_standard_project_setup()
 
@@ -16,6 +16,7 @@ qt_add_qml_module(appaltv-installer-for-linux
     URI altv-installer-for-linux
     VERSION 1.0
     QML_FILES Main.qml
+    QML_FILES TitleBar.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
