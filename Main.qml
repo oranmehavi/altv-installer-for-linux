@@ -21,10 +21,17 @@ Window {
 
     TitleBar {
         id: titleBar
+    }
+
+    Loader {
+        id: mainLoader
         anchors {
-            top: parent.top
+            top: titleBar.bottom
+            bottom: parent.bottom
             left: parent.left
             right: parent.right
         }
+
+        source: "StackViewComponent.qml"
     }
 }
