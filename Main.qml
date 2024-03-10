@@ -1,4 +1,5 @@
 import QtQuick
+import "components"
 
 Window {
     id: window
@@ -32,6 +33,6 @@ Window {
             right: parent.right
         }
 
-        source: "StackViewComponent.qml"
+        source: "components/StackViewComponent.qml"
     }
 }

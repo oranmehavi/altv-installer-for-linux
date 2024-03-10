@@ -1,4 +1,5 @@
 import QtQuick
+import "../components"
 
 Item {
 
@@ -42,6 +43,18 @@ Item {
         }
 
         optionName: qsTr("I want to choose it myself")
+    }
+
+    InstallerButtonRight {
+        id: leftButton
+        buttonText: qsTr("Shortcuts")
+
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            bottomMargin: 50
+            rightMargin: 50
+        }
     }
 
 }
