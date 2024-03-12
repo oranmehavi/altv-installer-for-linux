@@ -46,7 +46,7 @@ Item {
     }
 
     InstallerButtonRight {
-        id: leftButton
+        id: rightButton
         buttonText: qsTr("Shortcuts")
 
         anchors {
@@ -54,6 +54,19 @@ Item {
             bottom: parent.bottom
             bottomMargin: 50
             rightMargin: 50
+        }
+    }
+
+    InstallerDropDown {
+        id: dropDown
+        width: rightButton.implicitWidth
+        height: rightButton.implicitHeight
+        anchors {
+            left: parent.left
+            bottom: parent.bottom
+            bottomMargin: 50
+            leftMargin: 50
+            verticalCenter: rightButton.verticalCenter
         }
     }
 
