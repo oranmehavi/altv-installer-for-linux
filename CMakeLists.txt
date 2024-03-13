@@ -23,11 +23,14 @@ qt_add_qml_module(appaltv-installer-for-linux
     QML_FILES components/InstallerButtonLeft.qml
     QML_FILES components/InstallerButtonRight.qml
     QML_FILES components/InstallerDropDown.qml
+    QML_FILES components/FolderPickerButton.qml
 
     RESOURCES
     images/leftArrow.svg
     images/rightArrow.svg
     images/arrowDown.svg
+    images/folderIcon.svg
+
 
 
 )

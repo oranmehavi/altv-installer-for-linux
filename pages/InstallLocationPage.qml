@@ -20,7 +20,7 @@ Item {
     }
 
     InstallerRadioButton {
-        id: one
+        id: optionOne
         anchors {
             top: title.bottom
             left: parent.left
@@ -34,9 +34,9 @@ Item {
     }
 
     InstallerRadioButton {
-        id: two
+        id: optionTwo
         anchors {
-            top: one.bottom
+            top: optionOne.bottom
             left: parent.left
             topMargin: 15
             leftMargin: 50
@@ -48,7 +48,7 @@ Item {
     InstallerButtonRight {
         id: rightButton
         buttonText: qsTr("Shortcuts")
-
+        height: 42
         anchors {
             right: parent.right
             bottom: parent.bottom
@@ -60,7 +60,7 @@ Item {
     InstallerDropDown {
         id: dropDown
         width: rightButton.implicitWidth
-        height: rightButton.implicitHeight
+        height: 42
         anchors {
             left: parent.left
             bottom: parent.bottom
@@ -68,6 +68,20 @@ Item {
             leftMargin: 50
             verticalCenter: rightButton.verticalCenter
         }
+    }
+
+    FolderPickerButton {
+        id: folderPicker
+        width: 700
+        height: 50
+        anchors {
+            top: optionTwo.bottom
+            left: parent.left
+            topMargin: 20
+            leftMargin: 50
+        }
+
+        visible: optionTwo.checked
     }
 
 }
