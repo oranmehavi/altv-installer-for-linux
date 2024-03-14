@@ -3,8 +3,7 @@ import "../components"
 
 Item {
 
-    property string installQuestion: qsTr("Do you need shortcuts?")
-
+    property string installQuestion: qsTr("Select your GTA V location")
 
     Text {
         id: title
@@ -20,17 +19,20 @@ Item {
         font.pixelSize: 26
     }
 
-
-    InstallerCheckBox {
-        id: checkBoxOne
+    InstallerPlatformButton {
+        id: steam
+        width: 130
+        height: 50
         anchors {
-            top: title.bottom
             left: parent.left
-            topMargin: 20
-            leftMargin: 50
+            top: title.bottom
         }
 
-        checkBoxText: qsTr("Add shortcut to desktop")
+        buttonText: "Steam"
+
+        onClicked: {
+            steam.background.border.color = steam.borderColor
+        }
     }
 
     InstallerButtonLeft {
@@ -44,7 +46,7 @@ Item {
             verticalCenter: rightButton.verticalCenter
         }
 
-        buttonText: qsTr("alt:V Folder")
+        buttonText: qsTr("Shortcuts")
 
         onClicked: stackview.pop()
     }
@@ -58,10 +60,7 @@ Item {
             rightMargin: 50
             bottomMargin: 50
         }
-
-        buttonText: qsTr("Game location")
-
-        onClicked: stackview.push(gameLocationPage)
+        enabled: false
+        buttonText: qsTr("Confirm")
     }
-
 }

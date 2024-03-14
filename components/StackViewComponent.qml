@@ -16,5 +16,10 @@ Item {
         visible: false
     }
 
+    GameLocationPage {
+        id: gameLocationPage
+        visible: false
+    }
+
 
 }

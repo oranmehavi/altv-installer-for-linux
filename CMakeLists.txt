@@ -26,6 +26,8 @@ qt_add_qml_module(appaltv-installer-for-linux
     QML_FILES components/FolderPickerButton.qml
     QML_FILES components/InstallerCheckBox.qml
     QML_FILES pages/ShortcutsPage.qml
+    QML_FILES components/InstallerPlatformButton.qml
+    QML_FILES pages/GameLocationPage.qml
 
     RESOURCES
     images/leftArrow.svg
