@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import "../pages"
 
 Item {
 
@@ -9,5 +10,11 @@ Item {
 
         initialItem: "../pages/InstallLocationPage.qml"
     }
+
+    ShortcutsPage {
+        id: shortcutPage
+        visible: false
+    }
+
 
 }

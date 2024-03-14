@@ -55,6 +55,8 @@ Item {
             bottomMargin: 50
             rightMargin: 50
         }
+
+        onClicked: stackview.push(shortcutPage)
     }
 
     InstallerDropDown {

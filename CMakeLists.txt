@@ -24,15 +24,14 @@ qt_add_qml_module(appaltv-installer-for-linux
     QML_FILES components/InstallerButtonRight.qml
     QML_FILES components/InstallerDropDown.qml
     QML_FILES components/FolderPickerButton.qml
+    QML_FILES components/InstallerCheckBox.qml
+    QML_FILES pages/ShortcutsPage.qml
 
     RESOURCES
     images/leftArrow.svg
     images/rightArrow.svg
     images/arrowDown.svg
     images/folderIcon.svg
-
-
-
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
