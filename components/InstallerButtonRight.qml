@@ -14,6 +14,8 @@ Button {
     font.pixelSize: 16
     leftPadding: 15
     rightPadding: 15
+    opacity: root.enabled ? 1 : 0.3
+
     contentItem: RowLayout {
         spacing: 5
         Text {
@@ -29,7 +31,7 @@ Button {
 
 
     background: Rectangle {
-        color: root.hovered && !root.down ? buttonHovered : buttonColor
+        color: root.hovered && !root.down || !root.enabled ? buttonHovered : buttonColor
         opacity: 0.9
         radius: 10
         border.color: borderColor
