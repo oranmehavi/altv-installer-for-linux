@@ -12,6 +12,7 @@ Button {
     font.pixelSize: 16
     leftPadding: 15
     rightPadding: 15
+    checkable: true
     contentItem:  Text {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignVCenter
@@ -23,7 +24,7 @@ Button {
         color: buttonColor
         opacity: 0.9
         radius: 10
-        border.color: root.hovered ? borderColor : "transparent"
+        border.color: root.hovered || root.checked ? borderColor : "transparent"
         border.width: 1
 
         Behavior on border.color { PropertyAnimation {duration: 100} }
