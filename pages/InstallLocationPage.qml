@@ -4,6 +4,11 @@ import "../components"
 Item {
 
     property string installQuestion: qsTr("Where to install alt:V Multiplayer?")
+    property string permissionsWarningText:
+        qsTr("Do not select a folder with restricted permissions (like /usr) or a folder with non lating symbols.
+Usage of those folders may lead to unexpected side effects")
+
+    property string nonEmptyErrorText: qsTr("Selected folder should be empty")
 
     Text {
         id: title
@@ -85,5 +90,59 @@ Item {
 
         visible: optionTwo.checked
     }
+
+    Row {
+        id: warningMessage
+        anchors {
+            top: folderPicker.bottom
+            left: parent.left
+            right: parent.right
+            topMargin: 20
+            leftMargin: 50
+            rightMargin: 50
+        }
+        spacing: 5
+        visible: optionTwo.checked
+
+        Image {
+            id: warningImage
+            source: Qt.resolvedUrl("../images/warning.svg")
+            sourceSize: Qt.size(20, 20)
+        }
+
+        Text {
+            id: permissionsWarning
+            color: "white"
+            text: permissionsWarningText
+        }
+    }
+
+    Row {
+        anchors {
+            top: warningMessage.bottom
+            left: parent.left
+            right: parent.right
+            topMargin: 20
+            leftMargin: 50
+            rightMargin: 50
+        }
+        spacing: 5
+        visible: false
+
+        Image {
+            id: errorImage
+            source: Qt.resolvedUrl("../images/error.svg")
+            sourceSize: Qt.size(20, 20)
+        }
+
+        Text {
+            id: nonEmptyError
+            color: "red"
+            text: nonEmptyErrorText
+        }
+
+    }
+
+
 
 }
