@@ -1,4 +1,5 @@
 import QtQuick
+import Configuration
 import "../components"
 
 Item {
@@ -36,6 +37,19 @@ Usage of those folders may lead to unexpected side effects")
         checked: true
 
         optionName: qsTr("Recommended location")
+    }
+
+    Text {
+        id: recommendedLocation
+        anchors {
+            top: title.bottom
+            left: optionOne.right
+            topMargin: 25
+            leftMargin: 10
+        }
+
+        text: Configuration.recommendedLocation
+        color: "grey"
     }
 
     InstallerRadioButton {
