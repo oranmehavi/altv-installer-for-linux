@@ -1,4 +1,6 @@
+import QtCore
 import QtQuick
+import QtQuick.Dialogs
 import Configuration
 import "../components"
 
@@ -47,7 +49,8 @@ Usage of those folders may lead to unexpected side effects")
             topMargin: 25
             leftMargin: 10
         }
-
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignVCenter
         text: Configuration.recommendedLocation
         color: "grey"
     }
@@ -103,6 +106,8 @@ Usage of those folders may lead to unexpected side effects")
         }
 
         visible: optionTwo.checked
+
+        onClicked: modPath.open()
     }
 
     Row {
@@ -158,5 +163,14 @@ Usage of those folders may lead to unexpected side effects")
     }
 
 
-
+    FolderDialog {
+        id: modPath
+        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)
+        onAccepted: {
+            var path = selectedFolder.toString()
+            path = path.replace("file://","")
+            folderPicker.text = path
+            Configuration.modInstallLocation = path
+        }
+    }
 }

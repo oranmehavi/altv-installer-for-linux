@@ -5,6 +5,7 @@ Configuration::Configuration(QObject *parent)
     : QObject{parent}
 {
     setRecommendedLocation(QDir::homePath()+"/altv");
+    setModInstallLocation(m_recommendedLocation);
 }
 
 QString Configuration::modInstallLocation() const

@@ -21,7 +21,7 @@ Button {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
-        text: "Placeholder"
+        text: root.text
         color: "white"
         clip: true
     }
