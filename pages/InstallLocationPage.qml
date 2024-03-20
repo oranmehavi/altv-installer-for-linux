@@ -37,8 +37,9 @@ Usage of those folders may lead to unexpected side effects")
         }
 
         checked: true
-
         optionName: qsTr("Recommended location")
+
+        onClicked: Configuration.modInstallLocation = Configuration.recommendedLocation
     }
 
     Text {
@@ -65,6 +66,12 @@ Usage of those folders may lead to unexpected side effects")
         }
 
         optionName: qsTr("I want to choose it myself")
+
+        onClicked: {
+            Configuration.modInstallLocation = ""
+            folderPicker.text = ""
+        }
+
     }
 
     InstallerButtonRight {
@@ -79,6 +86,8 @@ Usage of those folders may lead to unexpected side effects")
         }
 
         onClicked: stackview.push(shortcutPage)
+
+        enabled: Configuration.isEmpty && folderPicker.text != ""
     }
 
     InstallerDropDown {
@@ -138,15 +147,15 @@ Usage of those folders may lead to unexpected side effects")
 
     Row {
         anchors {
-            top: warningMessage.bottom
+            top: folderPicker.visible ? warningMessage.bottom : optionTwo.bottom
             left: parent.left
             right: parent.right
-            topMargin: 20
-            leftMargin: 50
+            topMargin: folderPicker.visible ? 20 : 40
+            leftMargin: folderPicker.visible ? 50 : 60
             rightMargin: 50
         }
         spacing: 5
-        visible: false
+        visible: !Configuration.isEmpty
 
         Image {
             id: errorImage
@@ -165,7 +174,7 @@ Usage of those folders may lead to unexpected side effects")
 
     FolderDialog {
         id: modPath
-        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)
+        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
         onAccepted: {
             var path = selectedFolder.toString()
             path = path.replace("file://","")

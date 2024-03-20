@@ -2,7 +2,7 @@
 #include <QDir>
 
 Configuration::Configuration(QObject *parent)
-    : QObject{parent}
+    : QObject{parent}, m_isEmpty(true)
 {
     setRecommendedLocation(QDir::homePath()+"/altv");
     setModInstallLocation(m_recommendedLocation);
@@ -15,8 +15,27 @@ QString Configuration::modInstallLocation() const
 
 void Configuration::setModInstallLocation(const QString &newModInstallLocation)
 {
-    if (m_modInstallLocation == newModInstallLocation)
+
+    if (newModInstallLocation == "")
+    {
+        m_isEmpty = true;
+        emit isEmptyChanged();
         return;
+    }
+
+    QDir dir(newModInstallLocation);
+
+    if (!dir.isEmpty())
+    {
+        m_isEmpty = false;
+        emit isEmptyChanged();
+        return;
+    } else if (!m_isEmpty)
+    {
+        m_isEmpty = true;
+        emit isEmptyChanged();
+    }
+
     m_modInstallLocation = newModInstallLocation;
     emit modInstallLocationChanged();
 }
@@ -32,4 +51,9 @@ void Configuration::setRecommendedLocation(const QString &newRecommendedLocation
         return;
     m_recommendedLocation = newRecommendedLocation;
     emit recommendedLocationChanged();
+}
+
+bool Configuration::isEmpty() const
+{
+    return m_isEmpty;
 }
