@@ -10,6 +10,7 @@ class Configuration : public QObject
     Q_PROPERTY(QString recommendedLocation READ recommendedLocation WRITE setRecommendedLocation NOTIFY recommendedLocationChanged FINAL)
     Q_PROPERTY(QString modInstallLocation READ modInstallLocation WRITE setModInstallLocation NOTIFY modInstallLocationChanged FINAL)
     Q_PROPERTY(bool isEmpty READ isEmpty NOTIFY isEmptyChanged FINAL)
+    Q_PROPERTY(bool needsShortcut READ needsShortcut WRITE setneedsShortcut NOTIFY needsShortcutChanged FINAL)
 
 public:
     explicit Configuration(QObject *parent = nullptr);
@@ -22,6 +23,9 @@ public:
 
     bool isEmpty() const;
 
+    bool needsShortcut() const;
+    void setneedsShortcut(bool newNeedsShortcut);
+
 public slots:
 
 signals:
@@ -30,10 +34,13 @@ signals:
 
     void isEmptyChanged();
 
+    void needsShortcutChanged();
+
 private:
     QString m_modInstallLocation;
     QString m_recommendedLocation;
     bool m_isEmpty;
+    bool m_needsShortcut;
 };
 
 #endif // CONFIGURATION_H

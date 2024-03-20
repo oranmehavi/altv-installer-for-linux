@@ -2,7 +2,8 @@
 #include <QDir>
 
 Configuration::Configuration(QObject *parent)
-    : QObject{parent}, m_isEmpty(true)
+    : QObject{parent}, m_isEmpty(true),
+    m_needsShortcut(true)
 {
     setRecommendedLocation(QDir::homePath()+"/altv");
     setModInstallLocation(m_recommendedLocation);
@@ -56,4 +57,18 @@ void Configuration::setRecommendedLocation(const QString &newRecommendedLocation
 bool Configuration::isEmpty() const
 {
     return m_isEmpty;
+}
+
+bool Configuration::needsShortcut() const
+{
+    return m_needsShortcut;
+}
+
+void Configuration::setneedsShortcut(bool newNeedsShortcut)
+{
+    qInfo() << newNeedsShortcut;
+    if (m_needsShortcut == newNeedsShortcut)
+        return;
+    m_needsShortcut = newNeedsShortcut;
+    emit needsShortcutChanged();
 }

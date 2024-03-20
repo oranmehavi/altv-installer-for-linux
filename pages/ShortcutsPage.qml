@@ -1,4 +1,5 @@
 import QtQuick
+import Configuration
 import "../components"
 
 Item {
@@ -31,6 +32,8 @@ Item {
         }
 
         checkBoxText: qsTr("Add shortcut to desktop")
+
+        onCheckedChanged: Configuration.needsShortcut = checked
     }
 
     InstallerButtonLeft {
