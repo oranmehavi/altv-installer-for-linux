@@ -10,6 +10,8 @@ qt_standard_project_setup()
 
 qt_add_executable(appaltv-installer-for-linux
     main.cpp
+    vdf_parser.hpp
+    utilities.h
 )
 
 qt_add_qml_module(appaltv-installer-for-linux
