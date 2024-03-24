@@ -47,12 +47,13 @@ Usage of those folders may lead to unexpected side effects")
         anchors {
             top: title.bottom
             left: optionOne.right
-            topMargin: 25
             leftMargin: 10
+            verticalCenter: optionOne.verticalCenter
         }
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignVCenter
         text: Configuration.recommendedLocation
+        font.pointSize: 11
         color: "grey"
     }
 
@@ -142,6 +143,7 @@ Usage of those folders may lead to unexpected side effects")
             id: permissionsWarning
             color: "white"
             text: permissionsWarningText
+            font.pointSize: 11
         }
     }
 
@@ -167,6 +169,7 @@ Usage of those folders may lead to unexpected side effects")
             id: nonEmptyError
             color: "red"
             text: nonEmptyErrorText
+            font.pointSize: 11
         }
 
     }

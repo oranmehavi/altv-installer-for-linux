@@ -11,7 +11,6 @@ Button {
     property color borderColor: "#484848"
 
     text: buttonText
-    font.pixelSize: 16
     leftPadding: 15
     rightPadding: 15
     contentItem: RowLayout {
@@ -24,6 +23,7 @@ Button {
 
         Text {
             text: root.text
+            font.pointSize: 11
             color: "white"
         }
     }

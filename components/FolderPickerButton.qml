@@ -22,6 +22,7 @@ Button {
         horizontalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         text: root.text
+        font.pointSize: 11
         color: "white"
         clip: true
     }

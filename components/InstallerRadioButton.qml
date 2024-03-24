@@ -9,7 +9,7 @@ RadioButton {
 
     id: control
     text: optionName
-
+    font.pointSize: 11
     indicator: Rectangle {
         implicitWidth: 26
         implicitHeight: 26

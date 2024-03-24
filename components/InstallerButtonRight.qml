@@ -11,7 +11,6 @@ Button {
     property color borderColor: "#484848"
 
     text: buttonText
-    font.pixelSize: 16
     leftPadding: 15
     rightPadding: 15
     opacity: root.enabled ? 1 : 0.3
@@ -20,6 +19,7 @@ Button {
         spacing: 5
         Text {
             text: root.text
+            font.pointSize: 11
             color: "white"
         }
 

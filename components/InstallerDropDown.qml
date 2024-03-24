@@ -8,6 +8,7 @@ ComboBox {
     //textRole: "language"
     //onActivated: LanguageModel.setLanguage(currentValue["locale"])
     leftPadding: 10
+    font.pointSize: 11
     delegate: ItemDelegate {
         id: itemDelegate
         width: control.width

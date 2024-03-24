@@ -29,16 +29,28 @@ RowLayout {
             }
 
             id: toolButton
-            text: "🗕"
-            font.pixelSize: Qt.application.font.pixelSize * 1.6
+            contentItem: Text {
+                text: "🗕"
+                color: "white"
+                font.pixelSize: 22
+            }
+
             onClicked: window.showMinimized();
         }
         ToolButton {
-            text: "🗙"
+            Layout.leftMargin: 10
+
             background: Rectangle {
                 color: "transparent"
             }
-            font.pixelSize: Qt.application.font.pixelSize * 1.6
+
+            contentItem: Text {
+                id: s
+                text: "🗙"
+                color: "white"
+                font.pixelSize: 22
+            }
+
             onClicked: window.close()
         }
     }
