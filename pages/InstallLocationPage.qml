@@ -116,7 +116,7 @@ Usage of those folders may lead to unexpected side effects")
         }
 
         visible: optionTwo.checked
-
+        needsElide: true
         onClicked: modPath.open()
     }
 
