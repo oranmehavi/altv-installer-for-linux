@@ -7,24 +7,25 @@ Button {
 
     id: root
 
+    required property bool needsElide
     property color buttonHovered: "#1f1f1f"
     property color buttonColor: "#1b1c1c"
-
 
     contentItem: Text {
         anchors {
             left: parent.left
             right: icon.left
             leftMargin: 15
+            rightMargin: 5
         }
 
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        elide: needsElide ? Text.ElideRight : Text.ElideNone
         text: root.text
         font.pointSize: 11
         color: "white"
-        clip: true
     }
 
 
