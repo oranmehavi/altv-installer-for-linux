@@ -1,9 +1,10 @@
 #include "configuration.h"
 #include <QDir>
+#include "utilities.h"
 
 Configuration::Configuration(QObject *parent)
     : QObject{parent}, m_isEmpty(true),
-    m_needsShortcut(true)
+    m_needsShortcut(true), m_isGameFound(true)
 {
     setRecommendedLocation(QDir::homePath()+"/altv");
     setModInstallLocation(m_recommendedLocation);
@@ -71,4 +72,35 @@ void Configuration::setneedsShortcut(bool newNeedsShortcut)
         return;
     m_needsShortcut = newNeedsShortcut;
     emit needsShortcutChanged();
+}
+
+QString Configuration::gameInstallLocation() const
+{
+    return m_gameInstallLocation;
+}
+
+void Configuration::findGameInstallationPath(QString platform)
+{
+    if (platform == "Steam")
+    {
+        QString path = Utilities::getSteamGamePath();
+
+        if (path != "") {
+            m_gameInstallLocation = path;
+            m_isGameFound = true;
+            emit isGameFoundChanged();
+            emit gameInstallLocationChanged();
+        }
+        else {
+            m_isGameFound = false;
+            m_gameInstallLocation = "";
+            emit gameInstallLocationChanged();
+            emit isGameFoundChanged();
+        }
+    }
+}
+
+bool Configuration::isGameFound() const
+{
+    return m_isGameFound;
 }

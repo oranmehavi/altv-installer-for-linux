@@ -9,8 +9,10 @@ class Configuration : public QObject
 
     Q_PROPERTY(QString recommendedLocation READ recommendedLocation WRITE setRecommendedLocation NOTIFY recommendedLocationChanged FINAL)
     Q_PROPERTY(QString modInstallLocation READ modInstallLocation WRITE setModInstallLocation NOTIFY modInstallLocationChanged FINAL)
+    Q_PROPERTY(QString gameInstallLocation READ gameInstallLocation NOTIFY gameInstallLocationChanged FINAL)
     Q_PROPERTY(bool isEmpty READ isEmpty NOTIFY isEmptyChanged FINAL)
     Q_PROPERTY(bool needsShortcut READ needsShortcut WRITE setneedsShortcut NOTIFY needsShortcutChanged FINAL)
+    Q_PROPERTY(bool isGameFound READ isGameFound NOTIFY isGameFoundChanged FINAL)
 
 public:
     explicit Configuration(QObject *parent = nullptr);
@@ -26,7 +28,12 @@ public:
     bool needsShortcut() const;
     void setneedsShortcut(bool newNeedsShortcut);
 
+    QString gameInstallLocation() const;
+
+    bool isGameFound() const;
+
 public slots:
+    void findGameInstallationPath(QString platform);
 
 signals:
     void modInstallLocationChanged();
@@ -36,11 +43,17 @@ signals:
 
     void needsShortcutChanged();
 
+    void gameInstallLocationChanged();
+
+    void isGameFoundChanged();
+
 private:
     QString m_modInstallLocation;
     QString m_recommendedLocation;
     bool m_isEmpty;
     bool m_needsShortcut;
+    QString m_gameInstallLocation;
+    bool m_isGameFound;
 };
 
 #endif // CONFIGURATION_H

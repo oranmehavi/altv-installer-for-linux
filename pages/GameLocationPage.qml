@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import Configuration
 import "../components"
 
 Item {
@@ -39,7 +40,7 @@ Item {
         buttonText: "Steam"
 
         onClicked: {
-
+            Configuration.findGameInstallationPath("Steam")
         }
     }
 
@@ -63,7 +64,7 @@ Item {
         horizontalAlignment: Text.AlignVCenter
         font.pixelSize: 14
 
-        visible: false
+        visible: !Configuration.isGameFound
     }
 
     FolderPickerButton {
@@ -77,6 +78,9 @@ Item {
             topMargin: gameNotFoundError.visible ? 20 : 50
             rightMargin: 60
         }
+
+        needsElide: false
+        text: Configuration.gameInstallLocation
     }
 
     InstallerButtonLeft {
