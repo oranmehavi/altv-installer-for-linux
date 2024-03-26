@@ -41,6 +41,7 @@ Item {
 
         onClicked: {
             Configuration.findGameInstallationPath("Steam")
+            Configuration.platformName = "Steam"
         }
     }
 

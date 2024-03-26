@@ -104,3 +104,16 @@ bool Configuration::isGameFound() const
 {
     return m_isGameFound;
 }
+
+QString Configuration::platformName() const
+{
+    return m_platformName;
+}
+
+void Configuration::setPlatformName(const QString &newPlatformName)
+{
+    if (m_platformName == newPlatformName)
+        return;
+    m_platformName = newPlatformName;
+    emit platformNameChanged();
+}
