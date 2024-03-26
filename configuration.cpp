@@ -67,7 +67,6 @@ bool Configuration::needsShortcut() const
 
 void Configuration::setneedsShortcut(bool newNeedsShortcut)
 {
-    qInfo() << newNeedsShortcut;
     if (m_needsShortcut == newNeedsShortcut)
         return;
     m_needsShortcut = newNeedsShortcut;
