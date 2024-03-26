@@ -88,7 +88,8 @@ Usage of those folders may lead to unexpected side effects")
 
         onClicked: stackview.push(shortcutPage)
 
-        enabled: Configuration.isEmpty && folderPicker.text != ""
+        enabled: (Configuration.isEmpty && optionOne.checked) ||
+                 (folderPicker.text != "" && optionTwo.checked && Configuration.isEmpty)
     }
 
     InstallerDropDown {
