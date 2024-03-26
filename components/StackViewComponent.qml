@@ -21,5 +21,8 @@ Item {
         visible: false
     }
 
-
+    ConfirmPage {
+        id: confirmPage
+        visible: false
+    }
 }

@@ -30,6 +30,7 @@ qt_add_qml_module(appaltv-installer-for-linux
     QML_FILES pages/ShortcutsPage.qml
     QML_FILES components/InstallerPlatformButton.qml
     QML_FILES pages/GameLocationPage.qml
+    QML_FILES pages/ConfirmPage.qml
 
     RESOURCES
     images/leftArrow.svg

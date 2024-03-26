@@ -111,7 +111,10 @@ Item {
             rightMargin: 50
             bottomMargin: 50
         }
-        enabled: false
+        enabled: gameInstallation.text != ""
+
         buttonText: qsTr("Confirm")
+
+        onClicked: stackview.push(confirmPage)
     }
 }
