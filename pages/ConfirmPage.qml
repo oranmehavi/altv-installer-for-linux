@@ -49,7 +49,7 @@ Item {
             }
 
             Text {
-                text: qsTr("Recommended")
+                text: "(" + qsTr("Recommended") + ")"
                 font.pointSize: 11
                 color: "white"
 
@@ -105,7 +105,7 @@ Item {
             verticalCenter: rightButton.verticalCenter
         }
 
-        buttonText: qsTr("Shortcuts")
+        buttonText: qsTr("Game location")
 
         onClicked: stackview.pop()
     }
