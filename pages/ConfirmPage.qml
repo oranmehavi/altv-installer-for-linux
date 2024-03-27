@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 import Configuration
 import "../components"
 
@@ -110,9 +111,11 @@ Item {
         onClicked: stackview.pop()
     }
 
-    InstallerButtonRight {
+    Button {
         id: rightButton
         height: 42
+        leftPadding: 15
+        rightPadding: 15
         anchors {
             right: parent.right
             bottom: parent.bottom
@@ -120,7 +123,16 @@ Item {
             bottomMargin: 50
         }
 
-        buttonText: qsTr("Install")
+        background: Rectangle {
+            color: rightButton.hovered ? "#1f1f1f" : "#1b1c1c"
+            opacity: 0.9
+            radius: 10
+            border.color: "#08ae40"
+            border.width: 1
+
+        }
+
+        text: qsTr("Install")
 
         onClicked: {}
     }
