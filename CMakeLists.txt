@@ -42,6 +42,7 @@ qt_add_qml_module(appaltv-installer-for-linux
     images/error.svg
     images/warning.svg
     SOURCES configuration.h configuration.cpp
+    SOURCES downloaderinstaller.h downloaderinstaller.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

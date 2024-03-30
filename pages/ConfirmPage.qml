@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Configuration
+import DownloaderInstaller
 import "../components"
 
 Item {
@@ -136,6 +137,8 @@ Item {
 
         onClicked: {
             stackview.push(downloadPage)
+            DownloadInstaller.outputPath = Configuration.modInstallLocation
+            DownloadInstaller.startLauncherDownload()
         }
     }
 }
