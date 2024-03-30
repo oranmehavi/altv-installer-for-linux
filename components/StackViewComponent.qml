@@ -25,4 +25,9 @@ Item {
         id: confirmPage
         visible: false
     }
+
+    DownloadPage {
+        id: downloadPage
+        visible: false
+    }
 }

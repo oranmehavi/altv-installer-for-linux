@@ -134,6 +134,8 @@ Item {
 
         text: qsTr("Install")
 
-        onClicked: {}
+        onClicked: {
+            stackview.push(downloadPage)
+        }
     }
 }
