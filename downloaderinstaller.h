@@ -16,8 +16,8 @@ class DownloaderInstaller : public QObject
 public:
     explicit DownloaderInstaller(QObject *parent = nullptr);
 
-    void append(const QUrl &url);
-    void append(const QStringList &urls);
+    void append(const QString &path);
+    void append(const QStringList &paths);
     static QString saveFileName(const QUrl &url);
 
     int downloadedCount() const;
@@ -41,12 +41,14 @@ public slots:
 private slots:
     void startNextDownload();
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-    void downloadFinished();
+    void launcherDownloadFinished();
+    void modFilesDownloadFinished();
     void downloadReadyRead();
 
 private:
     QNetworkAccessManager manager;
-    QQueue<QUrl> downloadQueue;
+    QQueue<QString> downloadQueue;
+    QStringList paths;
     QNetworkReply *currentDownload = nullptr;
     QFile output;
     QElapsedTimer downloadTimer;

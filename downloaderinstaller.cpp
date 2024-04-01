@@ -1,5 +1,6 @@
 #include "downloaderinstaller.h"
 #include <QJsonDocument>
+#include <QDir>
 
 #define BASE_URL "https://cdn.alt-mp.com/client/release/x64_win32/"
 
@@ -9,22 +10,21 @@ DownloaderInstaller::DownloaderInstaller(QObject *parent)
 
 }
 
-void DownloaderInstaller::append(const QUrl &url)
+void DownloaderInstaller::append(const QString &path)
 {
-    // if (downloadQueue.isEmpty())
-    //     QTimer::singleShot(0, this, &DownloadManager::startNextDownload);
+    if (downloadQueue.isEmpty())
+        QTimer::singleShot(0, this, &DownloaderInstaller::startNextDownload);
 
-    // downloadQueue.enqueue(url);
-    // ++totalCount;
+    downloadQueue.enqueue(path);
 }
 
-void DownloaderInstaller::append(const QStringList &urls)
+void DownloaderInstaller::append(const QStringList &paths)
 {
-    // for (const QString &urlAsString : urls)
-    //     append(QUrl::fromEncoded(urlAsString.toLocal8Bit()));
+    for (const QString &path : paths)
+        append(path);
 
-    // if (downloadQueue.isEmpty())
-    //     QTimer::singleShot(0, this, &DownloadManager::finished);
+    if (downloadQueue.isEmpty())
+        QTimer::singleShot(0, this, &DownloaderInstaller::modFilesDownloadFinished);
 }
 
 QString DownloaderInstaller::saveFileName(const QUrl &url)
@@ -40,12 +40,14 @@ void DownloaderInstaller::startLauncherDownload()
     QUrl url("https://cdn.alt-mp.com/launcher/release/x64_win32/altv.exe");
 
     QString filename = saveFileName(url);
-    qInfo() << m_outputPath;
+    QDir dir(m_outputPath);
+
     output.setFileName(m_outputPath + "/" + filename);
+
+    dir.mkpath(QFileInfo(output.fileName()).absoluteDir().absolutePath());
+
     if (!output.open(QIODevice::WriteOnly)) {
-        fprintf(stderr, "Problem opening save file '%s' for download '%s': %s\n",
-                qPrintable(filename), url.toEncoded().constData(),
-                qPrintable(output.errorString()));
+        qInfo() << "Error opening file";
         return;
     }
 
@@ -54,7 +56,7 @@ void DownloaderInstaller::startLauncherDownload()
     connect(currentDownload, &QNetworkReply::downloadProgress,
             this, &DownloaderInstaller::downloadProgress);
     connect(currentDownload, &QNetworkReply::finished,
-            this, &DownloaderInstaller::downloadFinished);
+            this, &DownloaderInstaller::launcherDownloadFinished);
     connect(currentDownload, &QNetworkReply::readyRead,
             this, &DownloaderInstaller::downloadReadyRead);
 
@@ -62,7 +64,41 @@ void DownloaderInstaller::startLauncherDownload()
 
 void DownloaderInstaller::startNextDownload()
 {
+    if (downloadQueue.isEmpty()) {
+        qInfo() << "Finished downloading files successfully";
+        //emit finished();
+        qInfo() << "finished downloading files";
+        return;
+    }
 
+    QString path = downloadQueue.dequeue();
+
+    QUrl url(BASE_URL + path);
+
+    QDir dir(m_outputPath);
+
+    output.setFileName(m_outputPath + "/" + path);
+
+    dir.mkpath(QFileInfo(output.fileName()).absoluteDir().absolutePath());
+
+    if (!output.open(QIODevice::WriteOnly)) {
+        qInfo() << "Error opening file";
+        startNextDownload();
+        return;                 // skip this download
+    }
+
+    QNetworkRequest request(url);
+    currentDownload = manager.get(request);
+    connect(currentDownload, &QNetworkReply::downloadProgress,
+            this, &DownloaderInstaller::downloadProgress);
+    connect(currentDownload, &QNetworkReply::finished,
+            this, &DownloaderInstaller::modFilesDownloadFinished);
+    connect(currentDownload, &QNetworkReply::readyRead,
+            this, &DownloaderInstaller::downloadReadyRead);
+
+    // prepare the output
+    qInfo() << "Downloading " << url.toEncoded().constData() << "to " << QFileInfo(output.fileName()).absoluteDir().absolutePath();
+    downloadTimer.start();
 }
 
 void DownloaderInstaller::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
@@ -71,7 +107,7 @@ void DownloaderInstaller::downloadProgress(qint64 bytesReceived, qint64 bytesTot
 
 }
 
-void DownloaderInstaller::downloadFinished()
+void DownloaderInstaller::launcherDownloadFinished()
 {
     output.close();
 
@@ -87,15 +123,30 @@ void DownloaderInstaller::downloadFinished()
 
     currentDownload->deleteLater();
 
-    if(downloadingLauncher) {
-        downloadingLauncher = false;
-        prepareModFilesDownload();
+    prepareModFilesDownload();
+}
+
+void DownloaderInstaller::modFilesDownloadFinished()
+{
+    output.close();
+
+    if (currentDownload->error()) {
+        // download failed
+        fprintf(stderr, "Failed: %s\n", qPrintable(currentDownload->errorString()));
+        output.remove();
+    } else {
+        qInfo() << "Succeeded";
+        ++m_downloadedCount;
     }
+
+
+    currentDownload->deleteLater();
+    startNextDownload();
 }
 
 void DownloaderInstaller::downloadReadyRead()
 {
-    //output.write(currentDownload->readAll());
+    output.write(currentDownload->readAll());
 }
 
 void DownloaderInstaller::prepareModFilesDownload()
@@ -104,7 +155,6 @@ void DownloaderInstaller::prepareModFilesDownload()
 
     QNetworkRequest request(url);
     currentDownload = manager.get(request);
-
 
     connect(currentDownload, &QNetworkReply::finished, this, [&]() {
         if (currentDownload->error()) {
@@ -115,16 +165,16 @@ void DownloaderInstaller::prepareModFilesDownload()
             QJsonObject json = doc.object()["sizeList"].toObject();
             foreach(const QString& key, json.keys()) {
                 QJsonValue value = json.value(key);
-                //qInfo() << "Key = " << key << ", Value = " << qint64(value.toDouble());
                 totalDownloadSize += qint64(value.toDouble());
+                m_totalCount++;
+                paths << key;
             }
             qInfo() << totalDownloadSize;
+            qInfo() << m_totalCount;
+            append(paths);
         }
         currentDownload->deleteLater();
     });
-
-
-
 }
 
 int DownloaderInstaller::downloadedCount() const
@@ -136,7 +186,6 @@ int DownloaderInstaller::totalCount() const
 {
     return m_totalCount;
 }
-
 
 
 QString DownloaderInstaller::outputPath() const
