@@ -139,6 +139,7 @@ Item {
             color: "white"
             font.pointSize: 11
             verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
         }
 
         onClicked: {
