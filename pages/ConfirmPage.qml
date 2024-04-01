@@ -130,10 +130,16 @@ Item {
             radius: 10
             border.color: "#08ae40"
             border.width: 1
-
         }
 
         text: qsTr("Install")
+
+        contentItem: Text {
+            text: rightButton.text
+            color: "white"
+            font.pointSize: 11
+            verticalAlignment: Text.AlignVCenter
+        }
 
         onClicked: {
             stackview.push(downloadPage)
