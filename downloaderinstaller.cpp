@@ -67,7 +67,6 @@ void DownloaderInstaller::startNextDownload()
     if (downloadQueue.isEmpty()) {
         qInfo() << "Finished downloading files successfully";
         //emit finished();
-        qInfo() << "finished downloading files";
         return;
     }
 
