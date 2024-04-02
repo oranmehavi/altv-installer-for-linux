@@ -60,13 +60,16 @@ void DownloaderInstaller::startLauncherDownload()
     connect(currentDownload, &QNetworkReply::readyRead,
             this, &DownloaderInstaller::downloadReadyRead);
 
+    m_totalCount = 1;
+    emit totalCountChanged();
+    downloadTimer.start();
+
 }
 
 void DownloaderInstaller::startNextDownload()
 {
     if (downloadQueue.isEmpty()) {
         qInfo() << "Finished downloading files successfully";
-        //emit finished();
         return;
     }
 
@@ -97,13 +100,37 @@ void DownloaderInstaller::startNextDownload()
 
     // prepare the output
     qInfo() << "Downloading " << url.toEncoded().constData() << "to " << QFileInfo(output.fileName()).absoluteDir().absolutePath();
-    downloadTimer.start();
 }
 
 void DownloaderInstaller::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
 
+    currentBytesDownloaded += (bytesReceived - lastReceivedByteSize);
+    if (totalDownloadSize != 0) {
+        m_progress = currentBytesDownloaded * 100 / totalDownloadSize;
+        qInfo() << m_progress;
+        emit progressChanged();
+    }
 
+    m_sizeDownloaded = currentBytesDownloaded / 1000000;
+    m_sizeDownloaded = floor(m_sizeDownloaded * 10) / 10;
+    emit sizeDownloadedChanged();
+
+    double speed = currentBytesDownloaded * 1000.0 / downloadTimer.elapsed();
+    QString unit;
+    if (speed < 1024) {
+        unit = "bytes/sec";
+    } else if (speed < 1024*1024) {
+        speed /= 1024;
+        unit = "kB/s";
+    } else {
+        speed /= 1024*1024;
+        unit = "MB/s";
+    }
+
+    lastReceivedByteSize = bytesReceived;
+    m_speed = QString::number(floor(speed * 100.0) / 100.0) + " " + unit;
+    emit speedChanged();
 }
 
 void DownloaderInstaller::launcherDownloadFinished()
@@ -116,11 +143,20 @@ void DownloaderInstaller::launcherDownloadFinished()
         output.remove();
     } else {
         qInfo() << "Succeeded";
-        ++m_downloadedCount;
+        lastReceivedByteSize = 0;
+        m_downloadedCount++;
+        emit downloadedCountChanged();
     }
 
 
     currentDownload->deleteLater();
+    m_totalCount = 0;
+    m_downloadedCount = 0;
+    currentBytesDownloaded = 0;
+    m_sizeDownloaded = 0;
+    emit sizeDownloadedChanged();
+    emit totalCountChanged();
+    emit downloadedCountChanged();
 
     prepareModFilesDownload();
 }
@@ -135,7 +171,9 @@ void DownloaderInstaller::modFilesDownloadFinished()
         output.remove();
     } else {
         qInfo() << "Succeeded";
+        lastReceivedByteSize = 0;
         ++m_downloadedCount;
+        emit downloadedCountChanged();
     }
 
 
@@ -168,11 +206,17 @@ void DownloaderInstaller::prepareModFilesDownload()
                 m_totalCount++;
                 paths << key;
             }
-            qInfo() << totalDownloadSize;
-            qInfo() << m_totalCount;
+            m_totalSize = totalDownloadSize / 1000000;
+            qInfo() << "is " << totalDownloadSize;
+            m_totalSize = floor(m_totalSize * 10) / 10;
+
+            emit totalSizeChanged();
+            emit totalCountChanged();
+
+            currentDownload->deleteLater();
             append(paths);
         }
-        currentDownload->deleteLater();
+
     });
 }
 
@@ -198,4 +242,29 @@ void DownloaderInstaller::setOutputPath(const QString &newOutputPath)
         return;
     m_outputPath = newOutputPath;
     emit outputPathChanged();
+}
+
+QString DownloaderInstaller::stepString() const
+{
+    return m_stepString;
+}
+
+QString DownloaderInstaller::speed() const
+{
+    return m_speed;
+}
+
+double DownloaderInstaller::totalSize() const
+{
+    return m_totalSize;
+}
+
+double DownloaderInstaller::sizeDownloaded() const
+{
+    return m_sizeDownloaded;
+}
+
+double DownloaderInstaller::progress() const
+{
+    return m_progress;
 }

@@ -1,9 +1,14 @@
 import QtQuick
 import QtQuick.Controls
+import DownloaderInstaller
 
 ProgressBar {
     id: root
-    value: 0.5
+
+    from: 0
+    to: 100
+
+    value: DownloadInstaller.progress
 
     indeterminate: false
 
