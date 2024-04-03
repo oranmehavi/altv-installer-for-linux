@@ -41,7 +41,7 @@ Item {
             topMargin: 15
         }
 
-        text: DownloadInstaller.sizeDownloaded + " / " + DownloadInstaller.totalSize
+        text: DownloadInstaller.sizeDownloaded + " / " + DownloadInstaller.totalSize + " MB"
         color: "grey"
         font.pointSize: 11
     }
