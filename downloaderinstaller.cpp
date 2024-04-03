@@ -53,6 +53,15 @@ void DownloaderInstaller::startLauncherDownload()
 
     QNetworkRequest request(url);
     currentDownload = manager.get(request);
+
+    connect(currentDownload, &QNetworkReply::metaDataChanged,
+            this, [&]() {
+        totalDownloadSize = qint64(currentDownload->header(QNetworkRequest::ContentLengthHeader).toDouble());
+        m_totalSize = totalDownloadSize / 1000000;
+        m_totalSize = floor(m_totalSize * 10) / 10;
+
+        emit totalSizeChanged();
+    });
     connect(currentDownload, &QNetworkReply::downloadProgress,
             this, &DownloaderInstaller::downloadProgress);
     connect(currentDownload, &QNetworkReply::finished,
@@ -60,10 +69,7 @@ void DownloaderInstaller::startLauncherDownload()
     connect(currentDownload, &QNetworkReply::readyRead,
             this, &DownloaderInstaller::downloadReadyRead);
 
-    m_totalCount = 1;
-    emit totalCountChanged();
     downloadTimer.start();
-
 }
 
 void DownloaderInstaller::startNextDownload()
@@ -106,11 +112,10 @@ void DownloaderInstaller::downloadProgress(qint64 bytesReceived, qint64 bytesTot
 {
 
     currentBytesDownloaded += (bytesReceived - lastReceivedByteSize);
-    if (totalDownloadSize != 0) {
-        m_progress = currentBytesDownloaded * 100 / totalDownloadSize;
-        qInfo() << m_progress;
-        emit progressChanged();
-    }
+
+    m_progress = currentBytesDownloaded * 100 / totalDownloadSize;
+    emit progressChanged();
+
 
     m_sizeDownloaded = currentBytesDownloaded / 1000000;
     m_sizeDownloaded = floor(m_sizeDownloaded * 10) / 10;
@@ -150,6 +155,7 @@ void DownloaderInstaller::launcherDownloadFinished()
 
 
     currentDownload->deleteLater();
+    totalDownloadSize = 0;
     m_totalCount = 0;
     m_downloadedCount = 0;
     currentBytesDownloaded = 0;
@@ -207,13 +213,13 @@ void DownloaderInstaller::prepareModFilesDownload()
                 paths << key;
             }
             m_totalSize = totalDownloadSize / 1000000;
-            qInfo() << "is " << totalDownloadSize;
             m_totalSize = floor(m_totalSize * 10) / 10;
 
             emit totalSizeChanged();
             emit totalCountChanged();
 
             currentDownload->deleteLater();
+            downloadTimer.start();
             append(paths);
         }
 
