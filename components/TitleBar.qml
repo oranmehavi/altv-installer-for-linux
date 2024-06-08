@@ -22,10 +22,9 @@ RowLayout {
     RowLayout {
         spacing: 0
         Layout.alignment: Qt.AlignRight
-        Layout.rightMargin: 3
         ToolButton {
             background: Rectangle {
-                color: "transparent"
+                color: toolButton.hovered ? "grey" : "transparent"
             }
 
             id: toolButton
@@ -38,10 +37,12 @@ RowLayout {
             onClicked: window.showMinimized();
         }
         ToolButton {
+            id: close
             Layout.leftMargin: 10
 
             background: Rectangle {
-                color: "transparent"
+                color: close.hovered ? "red" : "transparent"
+                topRightRadius: 10
             }
 
             contentItem: Text {
