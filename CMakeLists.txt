@@ -4,7 +4,7 @@ project(altv-installer-for-linux VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick LinguistTools)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Quick LinguistTools)
 
 qt_standard_project_setup()
 
